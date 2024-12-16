@@ -21,6 +21,11 @@ module.exports = {
       },
     ],
     'import/prefer-default-export': 'off',
+    'global-require': 'off',
+    'react/jsx-filename-extension': [
+      2,
+      { extensions: ['.js', '.jsx', '.ts', '.tsx'] },
+    ],
   },
   parserOptions: {
     project: './tsconfig.json',
