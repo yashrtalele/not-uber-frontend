@@ -11,8 +11,8 @@ import * as SecureStore from 'expo-secure-store';
 
 interface AuthProps {
   authState?: { token: string | null; authenticated: boolean | null };
-  onSignup?: (email: string, password: string) => Promise<any>;
-  onSignin?: (email: string, password: string) => Promise<any>;
+  onSignup?: (username: string, password: string) => Promise<any>;
+  onSignin?: (username: string, password: string) => Promise<any>;
   onSignout?: () => Promise<any>;
 }
 
@@ -44,18 +44,18 @@ export function AuthProvider({ children }: any) {
     };
     loadToken();
   }, []);
-  const signup = useCallback(async (email: string, password: string) => {
+  const signup = useCallback(async (username: string, password: string) => {
     try {
-      return await axios.post(`${API_URL}/user/signup`, { email, password });
+      return await axios.post(`${API_URL}/user/signup`, { username, password });
     } catch (e) {
       return { error: true, msg: (e as any).response.data.msg };
     }
   }, []);
 
-  const signin = useCallback(async (email: string, password: string) => {
+  const signin = useCallback(async (username: string, password: string) => {
     try {
-      const result = await axios.post(`${API_URL}/user/signin`, {
-        email,
+      const result = await axios.post(`${API_URL}/user/signin/`, {
+        username,
         password,
       });
       console.log('🚀 ~ file: AuthContext.tsx:signin ~ result: ', result);
@@ -74,6 +74,7 @@ export function AuthProvider({ children }: any) {
 
   const signout = useCallback(async () => {
     await SecureStore.deleteItemAsync('authToken');
+    await axios.get(`${API_URL}/user/signout/`);
     setAuthState({ token: null, authenticated: false });
     delete axios.defaults.headers.common.Authorization;
   }, []);

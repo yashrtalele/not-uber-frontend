@@ -3,7 +3,6 @@ import {
   DefaultTheme,
   ThemeProvider,
 } from '@react-navigation/native';
-import { useFonts } from 'expo-font';
 import * as SplashScreen from 'expo-splash-screen';
 import { StatusBar } from 'expo-status-bar';
 import React, { useEffect } from 'react';
@@ -11,9 +10,12 @@ import { View } from 'react-native';
 import 'react-native-reanimated';
 import { TamaguiProvider } from 'tamagui';
 import { Slot, useRouter } from 'expo-router';
+import { useFonts } from 'expo-font';
 import { useColorScheme } from '@/hooks/useColorScheme';
 import { tamaguiConfig } from '../tamagui.config';
 import { AuthProvider, useAuth } from './context/AuthContext';
+import AppDarkTheme from '../constants/darkColors';
+import AppLightTheme from '../constants/lightColors';
 
 // Prevent the splash screen from auto-hiding before asset loading is complete.
 
@@ -35,7 +37,7 @@ function MainLayout() {
   }, [authState, router]);
 
   return (
-    <View className="h-full">
+    <View style={{ flex: 1 }}>
       <Slot />
     </View>
   );
@@ -69,7 +71,7 @@ export default function RootLayout() {
     <AuthProvider>
       <TamaguiProvider config={tamaguiConfig} defaultTheme={colorScheme!}>
         <ThemeProvider
-          value={colorScheme === 'dark' ? DarkTheme : DefaultTheme}>
+          value={colorScheme === 'dark' ? AppDarkTheme : AppLightTheme}>
           <MainLayout />
           <StatusBar style={colorScheme === 'dark' ? 'light' : 'auto'} />
         </ThemeProvider>
