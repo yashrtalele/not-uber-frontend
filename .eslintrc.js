@@ -22,6 +22,8 @@ module.exports = {
     ],
     'import/prefer-default-export': 'off',
     'global-require': 'off',
+    'no-console': 'off',
+    'no-alert': 'off',
     'react/jsx-filename-extension': [
       2,
       { extensions: ['.js', '.jsx', '.ts', '.tsx'] },
