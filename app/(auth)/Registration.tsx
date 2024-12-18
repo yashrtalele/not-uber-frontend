@@ -10,6 +10,7 @@ import { useGlobalSearchParams } from 'expo-router';
 import Header from '@/components/Header';
 import { useTheme } from '@react-navigation/native';
 import { ChevronRight, Eye, EyeOff } from '@tamagui/lucide-icons';
+import { useAuth } from '../context/AuthContext';
 
 const styles = StyleSheet.create({
   singleInputContainer: {
@@ -70,6 +71,7 @@ const styles = StyleSheet.create({
 });
 
 export default function Registration() {
+  const { onSignup } = useAuth();
   const { colors } = useTheme();
   const { phoneNumber } = useGlobalSearchParams() as {
     phoneNumber: string;
@@ -92,7 +94,7 @@ export default function Registration() {
       alert('Please fill all the fields!');
       return;
     }
-    // const response = await registerUser(name, email, phoneNumber);
+    // const response = await onSignup!(email, password, email, name, phoneNumber);
     console.log(
       '🚀 ~ file: Registration.tsx:handlePress ~ response:',
       name,

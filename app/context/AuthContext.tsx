@@ -11,12 +11,18 @@ import * as SecureStore from 'expo-secure-store';
 
 interface AuthProps {
   authState?: { token: string | null; authenticated: boolean | null };
-  onSignup?: (username: string, password: string) => Promise<any>;
+  onSignup?: (
+    username: string,
+    password: string,
+    email: string,
+    name: string,
+    phoneNumber: string,
+  ) => Promise<any>;
   onSignin?: (username: string, password: string) => Promise<any>;
   onSignout?: () => Promise<any>;
 }
 
-export const { API_URL } = process.env;
+export const API_URL = process.env.EXPO_PUBLIC_API_URL;
 const AuthContext = createContext<AuthProps>({});
 
 export const useAuth = () => {
@@ -44,13 +50,29 @@ export function AuthProvider({ children }: any) {
     };
     loadToken();
   }, []);
-  const signup = useCallback(async (username: string, password: string) => {
-    try {
-      return await axios.post(`${API_URL}/user/signup`, { username, password });
-    } catch (e) {
-      return { error: true, msg: (e as any).response.data.msg };
-    }
-  }, []);
+  const signup = useCallback(
+    async (
+      username: string,
+      password: string,
+      email: string,
+      name: string,
+      phoneNumber: string,
+    ) => {
+      try {
+        return await axios.post(`${API_URL}/user/signup`, {
+          username,
+          password,
+          firstName: name.split(' ')[0],
+          lastName: name.split(' ')[1],
+          phoneNumber,
+          email,
+        });
+      } catch (e) {
+        return { error: true, msg: (e as any).response.data.msg };
+      }
+    },
+    [],
+  );
 
   const signin = useCallback(async (username: string, password: string) => {
     try {
