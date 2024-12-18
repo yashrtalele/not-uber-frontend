@@ -1,7 +1,10 @@
-import React, { useRef, useState } from 'react';
+import React, { useRef } from 'react';
 import { StyleSheet, Text, TouchableOpacity, View } from 'react-native';
 import PhoneInput from 'react-native-phone-input';
 import { useTheme } from '@react-navigation/native';
+import { sendOTP } from '@/services/otpService';
+import { router } from 'expo-router';
+import { ChevronRight } from '@tamagui/lucide-icons';
 
 const styles = StyleSheet.create({
   container: {
@@ -78,8 +81,9 @@ const styles = StyleSheet.create({
     color: '#FFFFFF',
   },
   nextButtonContainer: {
-    width: 332,
-    height: 67,
+    width: '85%',
+    paddingLeft: 50,
+    height: '100%',
     justifyContent: 'center',
     alignItems: 'center',
   },
@@ -87,12 +91,30 @@ const styles = StyleSheet.create({
 
 export default function Signin() {
   const { colors } = useTheme();
-  const [phoneNumber, setPhoneNumber] = useState('');
   const phoneInput = useRef<PhoneInput>(null);
 
-  const handleSendOtp = () => {
-    console.log(phoneInput.current?.getValue());
-    console.log(phoneNumber);
+  const handleSendOtp = async () => {
+    const isValid = phoneInput.current?.isValidNumber();
+    if (!isValid) {
+      alert('Invalid phone number!');
+      return;
+    }
+    const phoneNumber = `${phoneInput.current?.getValue()}`;
+
+    const result = await sendOTP(phoneNumber);
+    if (result.status === 200) {
+      const { found } = result.data;
+      let userEmail = '';
+      if (found === true) {
+        userEmail = result.data.user.userProfile.email;
+      }
+      router.push({
+        pathname: '/OTP',
+        params: { phoneNumber, found, userEmail },
+      });
+    } else {
+      alert('Failed to send OTP!');
+    }
   };
 
   return (
@@ -115,9 +137,9 @@ export default function Signin() {
           textStyle={[styles.textStyle, { color: colors.text }]}
           initialCountry="in"
           offset={30}
-          onChangePhoneNumber={(number: string) => {
-            setPhoneNumber(number);
-          }}
+          // onChangePhoneNumber={(number: string) => {
+          //   setPhoneNumber(number);
+          // }}
           textProps={{
             placeholder: '77569 94033',
             keyboardType: 'number-pad',
@@ -142,8 +164,23 @@ export default function Signin() {
               { backgroundColor: colors.buttonColor },
             ]}>
             <TouchableOpacity onPress={handleSendOtp}>
-              <View style={styles.nextButtonContainer}>
-                <Text style={styles.nextText}>Next</Text>
+              <View
+                style={{
+                  flexDirection: 'row',
+                  height: 67,
+                  width: 332,
+                }}>
+                <View style={styles.nextButtonContainer}>
+                  <Text style={styles.nextText}>Next</Text>
+                </View>
+                <View
+                  style={{
+                    justifyContent: 'center',
+                    height: '100%',
+                    alignItems: 'center',
+                  }}>
+                  <ChevronRight color={colors.background} size={35} />
+                </View>
               </View>
             </TouchableOpacity>
           </View>

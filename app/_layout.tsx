@@ -28,7 +28,7 @@ function MainLayout() {
   useEffect(() => {
     const checkAuthentication = async () => {
       if (authState?.authenticated === false) {
-        router.replace('/(auth)/Signin');
+        router.replace({ pathname: '/(auth)' });
       } else {
         router.replace('/(app)/Home');
       }
