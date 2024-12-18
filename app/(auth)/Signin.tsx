@@ -30,7 +30,7 @@ const styles = StyleSheet.create({
   },
   singleInputContainer: {
     paddingTop: 300,
-    paddingBottom: 300,
+    paddingBottom: 295,
     justifyContent: 'center',
     alignItems: 'center',
   },

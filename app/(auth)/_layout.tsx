@@ -1,6 +1,7 @@
 import React from 'react';
 import { createNativeStackNavigator } from '@react-navigation/native-stack';
 import Header from '@/components/Header';
+import { Text, View } from 'react-native';
 import { useLocalSearchParams } from 'expo-router';
 import Signin from './Signin';
 import OTP from './OTP';
@@ -20,42 +21,21 @@ function Layout() {
         name="OTP"
         component={OTP}
         options={{
-          headerShown: true,
-          title: '',
-          headerStyle: {
-            backgroundColor: '#fff',
-          },
-          headerBackVisible: false,
-          headerLeft: () => <Header />,
-          headerShadowVisible: false,
+          headerShown: false,
         }}
       />
       <Stack.Screen
         name="Registration"
         component={Registration}
         options={{
-          headerShown: true,
-          title: '',
-          headerStyle: {
-            backgroundColor: '#fff',
-          },
-          headerBackVisible: false,
-          headerLeft: () => <Header />,
-          headerShadowVisible: false,
+          headerShown: false,
         }}
       />
       <Stack.Screen
         name="Password"
         component={Password}
         options={{
-          headerShown: true,
-          title: '',
-          headerStyle: {
-            backgroundColor: '#fff',
-          },
-          headerBackVisible: false,
-          headerLeft: () => <Header />,
-          headerShadowVisible: false,
+          headerShown: false,
         }}
       />
     </Stack.Navigator>

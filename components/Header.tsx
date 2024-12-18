@@ -20,11 +20,19 @@ function Header() {
     router.back();
   };
   return (
-    <TouchableOpacity
-      style={[styles.container, { backgroundColor: colors.tint }]}
-      onPress={handlePress}>
-      <ChevronLeft />
-    </TouchableOpacity>
+    <View
+      style={{
+        backgroundColor: '#fff',
+        marginTop: 55,
+        marginLeft: 25,
+        height: 60,
+      }}>
+      <TouchableOpacity
+        style={[styles.container, { backgroundColor: colors.tint }]}
+        onPress={handlePress}>
+        <ChevronLeft />
+      </TouchableOpacity>
+    </View>
   );
 }
 

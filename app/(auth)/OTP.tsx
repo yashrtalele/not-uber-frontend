@@ -1,8 +1,10 @@
-import React, { useCallback, useState } from 'react';
+import React, { useState } from 'react';
 import { StyleSheet, Text, TouchableOpacity, View } from 'react-native';
 import { router, useGlobalSearchParams } from 'expo-router';
 import { OtpInput } from 'react-native-otp-entry';
 import { verifyOTP } from '@/services/otpService';
+import Header from '@/components/Header';
+import { ChevronRight } from '@tamagui/lucide-icons';
 
 const styles = StyleSheet.create({
   containerStyle: {
@@ -23,6 +25,7 @@ const styles = StyleSheet.create({
   },
   focusedPinCodeContainerStyle: {
     borderColor: '#030318',
+    backgroundColor: 'transparent',
   },
   placeholderTextStyle: {
     fontWeight: '500',
@@ -38,19 +41,12 @@ const styles = StyleSheet.create({
     justifyContent: 'center',
     alignItems: 'center',
   },
-  submitText: {
-    color: 'white',
-    fontFamily: 'Lexend',
-    fontSize: 27,
-    fontWeight: '500',
-    textAlign: 'center',
-  },
   headingContainer: {
     width: 340,
     paddingBottom: 15,
   },
   singleInputContainer: {
-    paddingTop: 200,
+    paddingTop: 170,
     paddingBottom: 370,
     justifyContent: 'center',
     alignItems: 'center',
@@ -71,6 +67,19 @@ const styles = StyleSheet.create({
   },
   infoInnerContainer: {
     paddingBottom: 5,
+  },
+  nextText: {
+    fontFamily: 'Lexend',
+    fontWeight: 400,
+    fontSize: 25,
+    color: '#FFFFFF',
+  },
+  nextButtonContainer: {
+    width: '85%',
+    paddingLeft: 50,
+    height: '100%',
+    justifyContent: 'center',
+    alignItems: 'center',
   },
 });
 
@@ -114,6 +123,7 @@ export default function OTP() {
       style={{
         flex: 1,
       }}>
+      <Header />
       <View style={styles.singleInputContainer}>
         <View style={styles.headingContainer}>
           <Text style={styles.headingText}>
@@ -137,13 +147,34 @@ export default function OTP() {
           />
         </View>
       </View>
-      <View style={{ justifyContent: 'center', alignItems: 'center' }}>
+      <View
+        style={{
+          justifyContent: 'center',
+          alignItems: 'center',
+        }}>
         <View style={styles.infoContainer}>
           <View style={styles.infoInnerContainer}>
             <TouchableOpacity
               style={styles.submitContainer}
               onPress={handlePress}>
-              <Text style={styles.submitText}>Next</Text>
+              <View
+                style={{
+                  flexDirection: 'row',
+                  height: 67,
+                  width: 332,
+                }}>
+                <View style={styles.nextButtonContainer}>
+                  <Text style={styles.nextText}>Next</Text>
+                </View>
+                <View
+                  style={{
+                    justifyContent: 'center',
+                    height: '100%',
+                    alignItems: 'center',
+                  }}>
+                  <ChevronRight color="white" size={35} />
+                </View>
+              </View>
             </TouchableOpacity>
           </View>
         </View>
