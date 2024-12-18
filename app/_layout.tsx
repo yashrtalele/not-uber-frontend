@@ -1,8 +1,4 @@
-import {
-  DarkTheme,
-  DefaultTheme,
-  ThemeProvider,
-} from '@react-navigation/native';
+import { ThemeProvider } from '@react-navigation/native';
 import * as SplashScreen from 'expo-splash-screen';
 import { StatusBar } from 'expo-status-bar';
 import React, { useEffect } from 'react';
@@ -12,6 +8,7 @@ import { TamaguiProvider } from 'tamagui';
 import { Slot, useRouter } from 'expo-router';
 import { useFonts } from 'expo-font';
 import { useColorScheme } from '@/hooks/useColorScheme';
+import * as SecureStore from 'expo-secure-store';
 import { tamaguiConfig } from '../tamagui.config';
 import { AuthProvider, useAuth } from './context/AuthContext';
 import AppDarkTheme from '../constants/darkColors';
@@ -27,7 +24,10 @@ function MainLayout() {
 
   useEffect(() => {
     const checkAuthentication = async () => {
-      if (authState?.authenticated === false) {
+      const onBoarding = await SecureStore.getItemAsync('onboarding');
+      if (!onBoarding) {
+        router.replace({ pathname: '/Onboarding' });
+      } else if (authState?.authenticated === false) {
         router.replace({ pathname: '/(auth)' });
       } else {
         router.replace('/(app)/Home');
