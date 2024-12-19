@@ -47,7 +47,7 @@ const styles = StyleSheet.create({
   },
   singleInputContainer: {
     paddingTop: 170,
-    paddingBottom: 370,
+    paddingBottom: 205,
     justifyContent: 'center',
     alignItems: 'center',
   },
@@ -146,6 +146,29 @@ export default function OTP() {
             }}
           />
         </View>
+        <TouchableOpacity
+          onPress={() => {
+            if (found === 'true') {
+              router.push({
+                pathname: '/Password',
+                params: { phoneNumber, userEmail },
+              });
+            }
+          }}
+          style={{
+            paddingTop: 10,
+            width: '75%',
+            height: '30%',
+          }}>
+          <Text
+            style={{
+              fontFamily: 'Lexend',
+              fontSize: 15,
+              fontWeight: '400',
+            }}>
+            {found === 'true' ? 'Login via password instead' : ''}
+          </Text>
+        </TouchableOpacity>
       </View>
       <View
         style={{
@@ -164,7 +187,9 @@ export default function OTP() {
                   width: 332,
                 }}>
                 <View style={styles.nextButtonContainer}>
-                  <Text style={styles.nextText}>Next</Text>
+                  <Text style={styles.nextText}>
+                    {found === 'true' ? 'Sign in' : 'Next'}
+                  </Text>
                 </View>
                 <View
                   style={{
