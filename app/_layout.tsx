@@ -25,7 +25,7 @@ function MainLayout() {
   useEffect(() => {
     const checkAuthentication = async () => {
       const onBoarding = await SecureStore.getItemAsync('onboarding');
-      if (!onBoarding) {
+      if (!onBoarding && authState?.authenticated === false) {
         router.replace({ pathname: '/Onboarding' });
       } else if (authState?.authenticated === false) {
         router.replace({ pathname: '/(auth)' });

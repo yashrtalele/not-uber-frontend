@@ -86,6 +86,7 @@ export default function Onboarding() {
     // await SecureStore.setItemAsync('onboarding', 'true');
     // router.replace('/(auth)/Signin');
     console.log('Button Pressed');
+    router.push('/(auth)/Signin');
   };
 
   return (

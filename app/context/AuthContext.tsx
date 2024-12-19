@@ -80,7 +80,7 @@ export function AuthProvider({ children }: any) {
         username,
         password,
       });
-      console.log('🚀 ~ file: AuthContext.tsx:signin ~ result: ', result);
+      console.log('🚀 ~ file: AuthContext.tsx:signin ~ result: ', result.data);
       setAuthState({
         token: result.data.token,
         authenticated: true,
