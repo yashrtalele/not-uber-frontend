@@ -24,6 +24,7 @@ module.exports = {
     'global-require': 'off',
     'no-console': 'off',
     'no-alert': 'off',
+    'react/jsx-props-no-spreading': 'off',
     'react/jsx-filename-extension': [
       2,
       { extensions: ['.js', '.jsx', '.ts', '.tsx'] },
