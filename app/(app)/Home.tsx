@@ -160,7 +160,6 @@ export default function Home() {
         }
 
         setPlaceDetails(data.result);
-        // alert(JSON.stringify(data.result, null, 2));
       }
     } catch (error) {
       console.error('Error fetching place details:', error);
