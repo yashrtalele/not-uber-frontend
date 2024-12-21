@@ -1,8 +1,5 @@
 import React from 'react';
 import { createNativeStackNavigator } from '@react-navigation/native-stack';
-import Header from '@/components/Header';
-import { Text, View } from 'react-native';
-import { useLocalSearchParams } from 'expo-router';
 import Signin from './Signin';
 import OTP from './OTP';
 import Registration from './Registration';
