@@ -1,4 +1,10 @@
-import React, { useCallback, useMemo, useRef, useState } from 'react';
+import React, {
+  useCallback,
+  useEffect,
+  useMemo,
+  useRef,
+  useState,
+} from 'react';
 import {
   FlatList,
   Keyboard,
@@ -17,6 +23,14 @@ import BottomSheet, { BottomSheetView } from '@gorhom/bottom-sheet';
 import { MapPinHouse, MapPinned } from '@tamagui/lucide-icons';
 import MapView, { Marker } from 'react-native-maps';
 import MapViewDirections from 'react-native-maps-directions';
+import * as Location from 'expo-location';
+
+type LocationType = {
+  latitude: number;
+  longitude: number;
+  latitudeDelta: number;
+  longitudeDelta: number;
+};
 
 const styles = StyleSheet.create({
   container: {
@@ -52,16 +66,22 @@ function PlaceItem({ place, onPress }) {
 
 export default function Home() {
   const { EXPO_PUBLIC_GOOGLE_API_KEY } = process.env;
-
+  const currentTextInputRef = useRef(null);
+  const destinationTextInputRef = useRef(null);
   const [currentLocation, setCurrentLocation] = useState({
     latitude: 51.5078788,
     longitude: -0.0877321,
     latitudeDelta: 0.02,
     longitudeDelta: 0.02,
   });
-  const [destinationLocation, setDestinationLocation] = useState(null);
+  const [destinationText, setDestinationText] = useState('');
+  const [currentText, setCurrentText] = useState('');
+  const [destinationLocation, setDestinationLocation] =
+    useState<LocationType | null>(null);
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [locationType, setLocationType] = useState('');
+  const [placeDetails, setPlaceDetails] = useState([]);
+  const [places, setPlaces] = useState([]);
   const snapPoints = useMemo(() => ['1%', '37%', '85%'], []);
   const bottomSheetRef = useRef<BottomSheet>(null);
   const handleSheetChanges = useCallback((index: number) => {
@@ -72,7 +92,7 @@ export default function Home() {
     }
   }, []);
 
-  const openModal = type => {
+  const openModal = (type: string) => {
     bottomSheetRef.current?.snapToIndex(3);
     setLocationType(type);
     setIsModalOpen(true);
@@ -83,8 +103,6 @@ export default function Home() {
     setLocationType('');
     setIsModalOpen(false);
   };
-
-  const [placeDetails, setPlaceDetails] = useState([]);
 
   const [currentMarker, setCurrentMarker] = useState({
     latlng: { latitude: 51.5078788, longitude: -0.0877321 },
@@ -97,20 +115,20 @@ export default function Home() {
     description: 'This is the destination location',
   });
 
-  const [places, setPlaces] = useState([]);
-
-  const fetchPlaces = async query => {
+  const fetchPlaces = async (query: string) => {
     try {
-      const apiKey = EXPO_PUBLIC_GOOGLE_API_KEY;
+      // const apiKey = EXPO_PUBLIC_GOOGLE_API_KEY;
+      const apiKey = '';
+      if (query !== '') {
+        const url = `https://maps.googleapis.com/maps/api/place/autocomplete/json?input=${query}&key=${apiKey}`;
 
-      const url = `https://maps.googleapis.com/maps/api/place/autocomplete/json?input=${query}&key=${apiKey}`;
+        const response = await fetch(url);
 
-      const response = await fetch(url);
+        const data = await response.json();
 
-      const data = await response.json();
-
-      if (data.predictions) {
-        setPlaces(data.predictions);
+        if (data.predictions) {
+          setPlaces(data.predictions);
+        }
       }
     } catch (error) {
       console.error('Error fetching places:', error);
@@ -121,7 +139,8 @@ export default function Home() {
 
   const fetchPlaceDetails = async (placeId: string, lType: string) => {
     try {
-      const apiKey = EXPO_PUBLIC_GOOGLE_API_KEY;
+      // const apiKey = EXPO_PUBLIC_GOOGLE_API_KEY;
+      const apiKey = '';
       const url = `https://maps.googleapis.com/maps/api/place/details/json?place_id=${placeId}&key=${apiKey}`;
 
       const response = await fetch(url);
@@ -153,22 +172,59 @@ export default function Home() {
           });
 
           setDestinationLocation({
-            ...destinationLocation,
             latitude: data.result.geometry.location.lat,
             longitude: data.result.geometry.location.lng,
+            longitudeDelta: 0.02,
+            latitudeDelta: 0.02,
           });
         }
 
         setPlaceDetails(data.result);
+        setPlaces([]);
       }
     } catch (error) {
       console.error('Error fetching place details:', error);
     }
   };
 
-  const handlePlaceSelect = details => {
-    fetchPlaceDetails(details.place_id, locationType);
+  const handlePlaceSelect = (details: google.maps.places.PlaceResult) => {
+    if (details.place_id) {
+      if (locationType === 'current') {
+        setCurrentText(details.description);
+        currentTextInputRef.current?.setNativeProps({
+          selection: { start: 0, end: 0 },
+        });
+      } else {
+        setDestinationText(details.description);
+        destinationTextInputRef.current?.setNativeProps({
+          selection: { start: 0, end: 0 },
+        });
+      }
+
+      fetchPlaceDetails(details.place_id, locationType);
+    } else {
+      console.error('Place ID is undefined.');
+    }
   };
+
+  useEffect(() => {
+    async function getCurrentLocation() {
+      const { status } = await Location.requestForegroundPermissionsAsync();
+      if (status !== 'granted') {
+        alert('Permission to access location was denied');
+        return;
+      }
+
+      const location = await Location.getCurrentPositionAsync({});
+      setCurrentLocation({
+        ...currentLocation,
+        latitude: location.coords.latitude,
+        longitude: location.coords.longitude,
+      });
+    }
+
+    getCurrentLocation();
+  }, []);
 
   return (
     <GestureHandlerRootView style={{ flex: 1 }}>
@@ -250,16 +306,22 @@ export default function Home() {
                   </View>
 
                   <TextInput
+                    ref={currentTextInputRef}
                     onFocus={() => openModal('current')}
                     placeholder="Add a pick-up location"
+                    value={currentText}
                     style={{
                       height: 50,
                       width: 270,
                       borderRadius: 20,
                       paddingLeft: 30,
+                      paddingRight: 30,
                       backgroundColor: '#FAFAFA',
                     }}
-                    onChangeText={debouncedFetchPlaces}
+                    onChangeText={text => {
+                      setCurrentText(text);
+                      debouncedFetchPlaces(text);
+                    }}
                   />
                 </View>
                 <View
@@ -272,14 +334,20 @@ export default function Home() {
                     <MapPinned />
                   </View>
                   <TextInput
+                    ref={destinationTextInputRef}
                     onFocus={() => openModal('destination')}
                     placeholder="Add your destination"
-                    onChangeText={debouncedFetchPlaces}
+                    onChangeText={text => {
+                      setDestinationText(text);
+                      debouncedFetchPlaces(text);
+                    }}
+                    value={destinationText}
                     style={{
                       height: 50,
                       width: 270,
                       borderRadius: 20,
                       paddingLeft: 30,
+                      paddingRight: 30,
                       backgroundColor: '#FAFAFA',
                     }}
                   />
@@ -297,7 +365,7 @@ export default function Home() {
                   }}>
                   <FlatList
                     data={places}
-                    keyExtractor={item => item.place_id}
+                    keyExtractor={item => item.place_id ?? ''}
                     ItemSeparatorComponent={() => (
                       <View
                         style={{
