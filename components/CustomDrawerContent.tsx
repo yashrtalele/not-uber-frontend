@@ -8,9 +8,11 @@ import {
 import { Text, TouchableOpacity, View } from 'react-native';
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
 import { router } from 'expo-router';
+import { useAuth } from '../app/context/AuthContext';
 
 export default function CustomDrawerContent(props: any) {
-  const { top, bottom } = useSafeAreaInsets();
+  const { onSignout } = useAuth();
+  const { bottom } = useSafeAreaInsets();
   return (
     <View style={{ flex: 1 }}>
       <DrawerContentScrollView {...props} scrollEnabled={false}>
@@ -48,7 +50,9 @@ export default function CustomDrawerContent(props: any) {
           }}
         />
       </DrawerContentScrollView>
-      <TouchableOpacity style={{ padding: 20, paddingBottom: 20 + bottom }}>
+      <TouchableOpacity
+        onPress={onSignout}
+        style={{ padding: 20, paddingBottom: 20 + bottom }}>
         <Text>Sign Out</Text>
       </TouchableOpacity>
     </View>
