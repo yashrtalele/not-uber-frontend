@@ -22,7 +22,7 @@ function Header() {
   return (
     <View
       style={{
-        backgroundColor: '#fff',
+        backgroundColor: colors.background,
         marginTop: 55,
         marginLeft: 25,
         height: 60,

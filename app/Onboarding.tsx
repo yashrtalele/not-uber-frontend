@@ -43,7 +43,6 @@ const styles = StyleSheet.create({
   infoContainer: {
     width: 351,
     height: 252,
-    backgroundColor: '#FAFAFA',
     borderRadius: 20,
     justifyContent: 'space-between',
     alignItems: 'center',
@@ -57,13 +56,11 @@ const styles = StyleSheet.create({
   info: {
     fontFamily: 'Roboto',
     fontSize: 15,
-    color: '#555555',
   },
   nextText: {
     fontFamily: 'Lexend',
     fontWeight: 400,
     fontSize: 25,
-    color: '#FFFFFF',
   },
   nextButtonContainer: {
     width: '85%',
@@ -90,8 +87,14 @@ export default function Onboarding() {
   };
 
   return (
-    <View style={{ flex: 1, justifyContent: 'center', alignItems: 'center' }}>
-      <View style={styles.container}>
+    <View
+      style={{
+        flex: 1,
+        justifyContent: 'center',
+        alignItems: 'center',
+        backgroundColor: colors.background,
+      }}>
+      <View style={[styles.container, { backgroundColor: colors.background }]}>
         <View style={styles.imageContainer}>
           <Image
             style={styles.image}
@@ -100,12 +103,14 @@ export default function Onboarding() {
         </View>
       </View>
       <View style={styles.bottomContainer}>
-        <View style={styles.infoContainer}>
+        <View style={[styles.infoContainer, { backgroundColor: colors.card }]}>
           <View style={styles.infoInnerContainer}>
             <View style={styles.bottomContainerHeading}>
-              <Text style={styles.bottomHeading}>Instant Ride Booking</Text>
+              <Text style={[styles.bottomHeading, { color: colors.text }]}>
+                Instant Ride Booking
+              </Text>
             </View>
-            <Text style={styles.info}>
+            <Text style={[styles.info, { color: colors.secondaryLightText }]}>
               Select your destination, book a ride in an instant, and arrive at
               your destination with ease!
             </Text>
@@ -113,7 +118,7 @@ export default function Onboarding() {
           <View
             style={[
               styles.nextButton,
-              { backgroundColor: colors.buttonColor },
+              { backgroundColor: colors.secondaryButtonColor },
             ]}>
             <TouchableOpacity onPress={handleDone}>
               <View
@@ -123,7 +128,13 @@ export default function Onboarding() {
                   width: 332,
                 }}>
                 <View style={styles.nextButtonContainer}>
-                  <Text style={styles.nextText}>Getting Started</Text>
+                  <Text
+                    style={[
+                      styles.nextText,
+                      { color: colors.secondaryTextColor },
+                    ]}>
+                    Getting Started
+                  </Text>
                 </View>
                 <View
                   style={{
@@ -131,7 +142,7 @@ export default function Onboarding() {
                     height: '100%',
                     alignItems: 'center',
                   }}>
-                  <ChevronRight color={colors.background} size={35} />
+                  <ChevronRight color={colors.secondaryTextColor} size={35} />
                 </View>
               </View>
             </TouchableOpacity>

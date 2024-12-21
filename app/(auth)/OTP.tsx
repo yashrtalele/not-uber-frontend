@@ -5,6 +5,7 @@ import { OtpInput } from 'react-native-otp-entry';
 import { verifyOTP } from '@/services/otpService';
 import Header from '@/components/Header';
 import { ChevronRight } from '@tamagui/lucide-icons';
+import { useTheme } from '@react-navigation/native';
 
 const styles = StyleSheet.create({
   containerStyle: {
@@ -14,14 +15,12 @@ const styles = StyleSheet.create({
     width: 60,
     height: 57,
     borderRadius: 20,
-    backgroundColor: '#FAFAFA',
   },
   pinCodeTextStyle: {
     fontFamily: 'Lexend',
     fontSize: 32,
     fontWeight: '500',
     textAlign: 'center',
-    color: '#030318',
   },
   focusedPinCodeContainerStyle: {
     borderColor: '#030318',
@@ -31,10 +30,8 @@ const styles = StyleSheet.create({
     fontWeight: '500',
     fontFamily: 'Lexend',
     fontSize: 32,
-    color: '#000000',
   },
   submitContainer: {
-    backgroundColor: '#030318',
     width: 332,
     height: 67,
     borderRadius: 20,
@@ -60,7 +57,6 @@ const styles = StyleSheet.create({
   infoContainer: {
     width: 351,
     height: 99,
-    backgroundColor: '#FAFAFA',
     borderRadius: 20,
     justifyContent: 'flex-end',
     alignItems: 'center',
@@ -72,7 +68,6 @@ const styles = StyleSheet.create({
     fontFamily: 'Lexend',
     fontWeight: 400,
     fontSize: 25,
-    color: '#FFFFFF',
   },
   nextButtonContainer: {
     width: '85%',
@@ -84,6 +79,7 @@ const styles = StyleSheet.create({
 });
 
 export default function OTP() {
+  const { colors } = useTheme();
   const { phoneNumber, found, userEmail } = useGlobalSearchParams() as {
     phoneNumber: string;
     found: string;
@@ -126,7 +122,7 @@ export default function OTP() {
       <Header />
       <View style={styles.singleInputContainer}>
         <View style={styles.headingContainer}>
-          <Text style={styles.headingText}>
+          <Text style={[styles.headingText, { color: colors.text }]}>
             Enter the code sent to you at {phoneNumber}
           </Text>
         </View>
@@ -139,10 +135,22 @@ export default function OTP() {
             onFilled={otp => setCode(otp)}
             theme={{
               containerStyle: styles.containerStyle,
-              pinCodeContainerStyle: styles.pinCodeContainerStyle,
-              pinCodeTextStyle: styles.pinCodeTextStyle,
-              focusedPinCodeContainerStyle: styles.focusedPinCodeContainerStyle,
-              placeholderTextStyle: styles.placeholderTextStyle,
+              pinCodeContainerStyle: [
+                styles.pinCodeContainerStyle,
+                { borderColor: 'transparent', backgroundColor: colors.card },
+              ],
+              pinCodeTextStyle: [
+                styles.pinCodeTextStyle,
+                { color: colors.text },
+              ],
+              focusedPinCodeContainerStyle: [
+                styles.focusedPinCodeContainerStyle,
+                { backgroundColor: colors.focusedContainer },
+              ],
+              placeholderTextStyle: [
+                styles.placeholderTextStyle,
+                { color: colors.text },
+              ],
             }}
           />
         </View>
@@ -165,6 +173,7 @@ export default function OTP() {
               fontFamily: 'Lexend',
               fontSize: 15,
               fontWeight: '400',
+              color: colors.text,
             }}>
             {found === 'true' ? 'Login via password instead' : ''}
           </Text>
@@ -175,10 +184,17 @@ export default function OTP() {
           justifyContent: 'center',
           alignItems: 'center',
         }}>
-        <View style={styles.infoContainer}>
+        <View
+          style={[
+            styles.infoContainer,
+            { backgroundColor: colors.cardBackgroundNoText },
+          ]}>
           <View style={styles.infoInnerContainer}>
             <TouchableOpacity
-              style={styles.submitContainer}
+              style={[
+                styles.submitContainer,
+                { backgroundColor: colors.secondaryButtonColor },
+              ]}
               onPress={handlePress}>
               <View
                 style={{
@@ -187,7 +203,11 @@ export default function OTP() {
                   width: 332,
                 }}>
                 <View style={styles.nextButtonContainer}>
-                  <Text style={styles.nextText}>
+                  <Text
+                    style={[
+                      styles.nextText,
+                      { color: colors.secondaryTextColor },
+                    ]}>
                     {found === 'true' ? 'Sign in' : 'Next'}
                   </Text>
                 </View>
@@ -197,7 +217,7 @@ export default function OTP() {
                     height: '100%',
                     alignItems: 'center',
                   }}>
-                  <ChevronRight color="white" size={35} />
+                  <ChevronRight color={colors.secondaryTextColor} size={35} />
                 </View>
               </View>
             </TouchableOpacity>

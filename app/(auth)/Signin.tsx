@@ -58,7 +58,6 @@ const styles = StyleSheet.create({
   infoContainer: {
     width: 351,
     height: 188,
-    backgroundColor: '#FAFAFA',
     borderRadius: 20,
     justifyContent: 'space-between',
     alignItems: 'center',
@@ -151,9 +150,9 @@ export default function Signin() {
         />
       </View>
       <View style={styles.bottomContainer}>
-        <View style={styles.infoContainer}>
+        <View style={[styles.infoContainer, { backgroundColor: colors.card }]}>
           <View style={styles.infoInnerContainer}>
-            <Text style={styles.info}>
+            <Text style={[styles.info, { color: colors.secondaryLightText }]}>
               By continuing you may receive an SMS for verification. Message and
               data rates may apply.
             </Text>
@@ -161,7 +160,7 @@ export default function Signin() {
           <View
             style={[
               styles.nextButton,
-              { backgroundColor: colors.buttonColor },
+              { backgroundColor: colors.secondaryButtonColor },
             ]}>
             <TouchableOpacity onPress={handleSendOtp}>
               <View
@@ -171,7 +170,13 @@ export default function Signin() {
                   width: 332,
                 }}>
                 <View style={styles.nextButtonContainer}>
-                  <Text style={styles.nextText}>Next</Text>
+                  <Text
+                    style={[
+                      styles.nextText,
+                      { color: colors.secondaryTextColor },
+                    ]}>
+                    Next
+                  </Text>
                 </View>
                 <View
                   style={{
@@ -179,7 +184,7 @@ export default function Signin() {
                     height: '100%',
                     alignItems: 'center',
                   }}>
-                  <ChevronRight color={colors.background} size={35} />
+                  <ChevronRight color={colors.secondaryTextColor} size={35} />
                 </View>
               </View>
             </TouchableOpacity>

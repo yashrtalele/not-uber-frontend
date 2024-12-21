@@ -34,7 +34,6 @@ const styles = StyleSheet.create({
   infoContainer: {
     width: 351,
     height: 188,
-    backgroundColor: '#FAFAFA',
     borderRadius: 20,
     justifyContent: 'space-between',
     alignItems: 'center',
@@ -48,13 +47,11 @@ const styles = StyleSheet.create({
   info: {
     fontFamily: 'Roboto',
     fontSize: 14,
-    color: '#656565',
   },
   nextText: {
     fontFamily: 'Lexend',
     fontWeight: 400,
     fontSize: 25,
-    color: '#FFFFFF',
   },
   nextButtonContainer: {
     width: '85%',
@@ -117,7 +114,12 @@ export default function Registration() {
             alignItems: 'flex-start',
           }}>
           <Text
-            style={{ fontSize: 27, fontWeight: 'bold', fontFamily: 'Lexend' }}>
+            style={{
+              fontSize: 27,
+              fontWeight: 'bold',
+              fontFamily: 'Lexend',
+              color: colors.text,
+            }}>
             What&apos;s your name?
           </Text>
           <TextInput
@@ -128,12 +130,12 @@ export default function Registration() {
               height: 60,
               paddingLeft: 30,
               paddingRight: 30,
-              backgroundColor: '#FAFAFA',
+              backgroundColor: colors.card,
             }}
             placeholder="John Doe"
             placeholderTextColor="#B2B2B2"
             fontSize={21}
-            color="#454545"
+            color={colors.text}
             fontFamily="Lexend"
             fontWeight="500"
             value={name}
@@ -148,7 +150,12 @@ export default function Registration() {
             alignItems: 'flex-start',
           }}>
           <Text
-            style={{ fontSize: 27, fontWeight: 'bold', fontFamily: 'Lexend' }}>
+            style={{
+              fontSize: 27,
+              fontWeight: 'bold',
+              fontFamily: 'Lexend',
+              color: colors.text,
+            }}>
             Email
           </Text>
           <TextInput
@@ -159,12 +166,12 @@ export default function Registration() {
               height: 60,
               paddingLeft: 30,
               paddingRight: 30,
-              backgroundColor: '#FAFAFA',
+              backgroundColor: colors.card,
             }}
             placeholder="john.doe@email.com"
             placeholderTextColor="#B2B2B2"
             fontSize={21}
-            color="#454545"
+            color={colors.text}
             fontFamily="Lexend"
             fontWeight="500"
             autoCorrect={false}
@@ -182,12 +189,17 @@ export default function Registration() {
             alignItems: 'flex-start',
           }}>
           <Text
-            style={{ fontSize: 27, fontWeight: 'bold', fontFamily: 'Lexend' }}>
+            style={{
+              fontSize: 27,
+              fontWeight: 'bold',
+              fontFamily: 'Lexend',
+              color: colors.text,
+            }}>
             Password
           </Text>
           <View
             style={{
-              backgroundColor: '#FAFAFA',
+              backgroundColor: colors.card,
               borderRadius: 20,
               flexDirection: 'row',
               width: 330,
@@ -201,12 +213,12 @@ export default function Registration() {
                 width: 270,
                 height: 60,
                 paddingLeft: 30,
-                backgroundColor: '#FAFAFA',
+                backgroundColor: colors.card,
               }}
               placeholder="P@ssw0rd!"
               placeholderTextColor="#B2B2B2"
               fontSize={21}
-              color="#454545"
+              color={colors.text}
               fontFamily="Lexend"
               fontWeight="500"
               autoCapitalize="none"
@@ -226,9 +238,9 @@ export default function Registration() {
         </View>
       </View>
       <View style={styles.bottomContainer}>
-        <View style={styles.infoContainer}>
+        <View style={[styles.infoContainer, { backgroundColor: colors.card }]}>
           <View style={styles.infoInnerContainer}>
-            <Text style={styles.info}>
+            <Text style={[styles.info, { color: colors.secondaryLightText }]}>
               By tapping next you indicate that you are at least 18 years of age
               and agree to the
               <Text style={styles.linkText}>{' Terms & Conditions'}</Text> and
@@ -239,7 +251,7 @@ export default function Registration() {
           <View
             style={[
               styles.nextButton,
-              { backgroundColor: colors.buttonColor },
+              { backgroundColor: colors.secondaryButtonColor },
             ]}>
             <TouchableOpacity onPress={handlePress}>
               <View
@@ -249,7 +261,13 @@ export default function Registration() {
                   width: 332,
                 }}>
                 <View style={styles.nextButtonContainer}>
-                  <Text style={styles.nextText}>Next</Text>
+                  <Text
+                    style={[
+                      styles.nextText,
+                      { color: colors.secondaryTextColor },
+                    ]}>
+                    Next
+                  </Text>
                 </View>
                 <View
                   style={{
@@ -257,7 +275,7 @@ export default function Registration() {
                     height: '100%',
                     alignItems: 'center',
                   }}>
-                  <ChevronRight color={colors.background} size={35} />
+                  <ChevronRight color={colors.secondaryTextColor} size={35} />
                 </View>
               </View>
             </TouchableOpacity>

@@ -24,6 +24,7 @@ import { MapPinHouse, MapPinned } from '@tamagui/lucide-icons';
 import MapView, { Marker } from 'react-native-maps';
 import MapViewDirections from 'react-native-maps-directions';
 import * as Location from 'expo-location';
+import { useTheme } from '@react-navigation/native';
 
 type LocationType = {
   latitude: number;
@@ -35,7 +36,6 @@ type LocationType = {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: 'lightgray',
   },
   title: {
     fontSize: 27,
@@ -52,12 +52,12 @@ const styles = StyleSheet.create({
   },
 });
 
-function PlaceItem({ place, onPress }) {
+function PlaceItem({ place, onPress, colors }) {
   return (
     <TouchableOpacity
       onPress={() => onPress(place)}
       style={{ paddingLeft: 30, paddingRight: 20, padding: 15 }}>
-      <Text style={{ fontFamily: 'Lexend', color: '#353535' }}>
+      <Text style={{ fontFamily: 'Lexend', color: colors.lightText }}>
         {place.description}
       </Text>
     </TouchableOpacity>
@@ -65,6 +65,7 @@ function PlaceItem({ place, onPress }) {
 }
 
 export default function Home() {
+  const { colors } = useTheme();
   const { EXPO_PUBLIC_GOOGLE_API_KEY } = process.env;
   const currentTextInputRef = useRef(null);
   const destinationTextInputRef = useRef(null);
@@ -268,9 +269,12 @@ export default function Home() {
           snapPoints={snapPoints}
           ref={bottomSheetRef}
           handleIndicatorStyle={{
-            backgroundColor: '#fff',
+            backgroundColor: colors.background,
           }}
-          backgroundStyle={{ borderRadius: 40 }}
+          backgroundStyle={{
+            borderRadius: 40,
+            backgroundColor: colors.background,
+          }}
           onChange={handleSheetChanges}>
           <BottomSheetView style={styles.contentContainer}>
             <View
@@ -291,7 +295,7 @@ export default function Home() {
                     paddingTop: 20,
                     marginRight: 10,
                   }}>
-                  <Text style={styles.title}>
+                  <Text style={[styles.title, { color: colors.text }]}>
                     Set your destination, and let&apos;s roll!
                   </Text>
                 </View>
@@ -316,7 +320,10 @@ export default function Home() {
                       borderRadius: 20,
                       paddingLeft: 30,
                       paddingRight: 30,
-                      backgroundColor: '#FAFAFA',
+                      backgroundColor: colors.tint,
+                      color: colors.text,
+                      fontFamily: 'Lexend',
+                      fontSize: 15,
                     }}
                     onChangeText={text => {
                       setCurrentText(text);
@@ -348,7 +355,10 @@ export default function Home() {
                       borderRadius: 20,
                       paddingLeft: 30,
                       paddingRight: 30,
-                      backgroundColor: '#FAFAFA',
+                      backgroundColor: colors.tint,
+                      color: colors.text,
+                      fontFamily: 'Lexend',
+                      fontSize: 15,
                     }}
                   />
                 </View>
@@ -357,7 +367,7 @@ export default function Home() {
               <View>
                 <View
                   style={{
-                    backgroundColor: 'white',
+                    backgroundColor: colors.background,
                     height: '50%',
                     marginTop: 50,
                     marginLeft: 10,
@@ -370,14 +380,18 @@ export default function Home() {
                       <View
                         style={{
                           height: 2,
-                          backgroundColor: '#eaeaea',
+                          backgroundColor: colors.separatorColor,
                           alignSelf: 'center',
                           width: '80%',
                         }}
                       />
                     )}
                     renderItem={({ item }) => (
-                      <PlaceItem place={item} onPress={handlePlaceSelect} />
+                      <PlaceItem
+                        place={item}
+                        onPress={handlePlaceSelect}
+                        colors={colors}
+                      />
                     )}
                     style={{ margin: 10, alignSelf: 'center' }}
                   />
@@ -391,7 +405,7 @@ export default function Home() {
                     marginTop: 60,
                     width: 332,
                     height: 77.76,
-                    backgroundColor: 'black',
+                    backgroundColor: colors.secondaryButtonColor,
                     justifyContent: 'center',
                     alignItems: 'center',
                     borderRadius: 20,
@@ -400,7 +414,7 @@ export default function Home() {
                   <Text
                     style={{
                       fontFamily: 'Lexend',
-                      color: 'white',
+                      color: colors.secondaryTextColor,
                       fontWeight: '500',
                       fontSize: 27,
                     }}>

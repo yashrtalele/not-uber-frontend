@@ -9,28 +9,12 @@ import {
 import { useGlobalSearchParams } from 'expo-router';
 import Header from '@/components/Header';
 import { ChevronRight, Eye, EyeOff } from '@tamagui/lucide-icons';
+import { useTheme } from '@react-navigation/native';
 import { useAuth } from '../context/AuthContext';
 
 const styles = StyleSheet.create({
   containerStyle: {
     width: 330,
-  },
-  pinCodeContainerStyle: {
-    width: 60,
-    height: 57,
-    borderRadius: 20,
-    backgroundColor: '#FAFAFA',
-  },
-  pinCodeTextStyle: {
-    fontFamily: 'Lexend',
-    fontSize: 32,
-    fontWeight: '500',
-    textAlign: 'center',
-    color: '#030318',
-  },
-  focusedPinCodeContainerStyle: {
-    borderColor: '#030318',
-    backgroundColor: 'transparent',
   },
   placeholderTextStyle: {
     fontWeight: '500',
@@ -65,7 +49,6 @@ const styles = StyleSheet.create({
   infoContainer: {
     width: 351,
     height: 99,
-    backgroundColor: '#FAFAFA',
     borderRadius: 20,
     justifyContent: 'flex-end',
     alignItems: 'center',
@@ -77,7 +60,6 @@ const styles = StyleSheet.create({
     fontFamily: 'Lexend',
     fontWeight: 400,
     fontSize: 25,
-    color: '#FFFFFF',
   },
   nextButtonContainer: {
     width: '85%',
@@ -89,6 +71,7 @@ const styles = StyleSheet.create({
 });
 
 export default function Password() {
+  const { colors } = useTheme();
   const { onSignin } = useAuth();
   const { phoneNumber, userEmail } = useGlobalSearchParams() as {
     phoneNumber: string;
@@ -121,11 +104,13 @@ export default function Password() {
       <Header />
       <View style={styles.singleInputContainer}>
         <View style={styles.headingContainer}>
-          <Text style={styles.headingText}>Enter your password</Text>
+          <Text style={[styles.headingText, { color: colors.text }]}>
+            Enter your password
+          </Text>
         </View>
         <View
           style={{
-            backgroundColor: '#FAFAFA',
+            backgroundColor: colors.card,
             borderRadius: 20,
             flexDirection: 'row',
             width: 340,
@@ -139,12 +124,12 @@ export default function Password() {
               width: 270,
               height: 60,
               paddingLeft: 30,
-              backgroundColor: '#FAFAFA',
+              backgroundColor: colors.card,
             }}
             placeholder="P@ssw0rd!"
             placeholderTextColor="#B2B2B2"
             fontSize={21}
-            color="#454545"
+            color={colors.text}
             fontFamily="Lexend"
             fontWeight="500"
             autoCapitalize="none"
@@ -167,7 +152,11 @@ export default function Password() {
           justifyContent: 'center',
           alignItems: 'center',
         }}>
-        <View style={styles.infoContainer}>
+        <View
+          style={[
+            styles.infoContainer,
+            { backgroundColor: colors.cardBackgroundNoText },
+          ]}>
           <View style={styles.infoInnerContainer}>
             <TouchableOpacity
               style={styles.submitContainer}
@@ -179,7 +168,13 @@ export default function Password() {
                   width: 332,
                 }}>
                 <View style={styles.nextButtonContainer}>
-                  <Text style={styles.nextText}>Sign in</Text>
+                  <Text
+                    style={[
+                      styles.nextText,
+                      { color: colors.secondaryTextColor },
+                    ]}>
+                    Sign in
+                  </Text>
                 </View>
                 <View
                   style={{
@@ -187,7 +182,7 @@ export default function Password() {
                     height: '100%',
                     alignItems: 'center',
                   }}>
-                  <ChevronRight color="white" size={35} />
+                  <ChevronRight color={colors.secondaryTextColor} size={35} />
                 </View>
               </View>
             </TouchableOpacity>
