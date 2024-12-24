@@ -17,6 +17,7 @@ const AppLightTheme = {
     secondaryButtonColor: '#030318',
     secondaryTextColor: '#FFFFFF',
     secondaryLightText: '#555555',
+    secondaryTint: '#c7c7c7',
     cardBackgroundNoText: '#FAFAFA',
     focusedContainer: '#FFF',
   },

@@ -17,6 +17,7 @@ const AppDarkTheme = {
     secondaryButtonColor: '#000',
     secondaryTextColor: '#FFFFFF',
     secondaryLightText: '#E5E5E5',
+    secondaryTint: '#A5A5A5',
     cardBackgroundNoText: 'transparent',
     focusedContainer: '#353535',
   },
