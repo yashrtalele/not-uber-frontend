@@ -46,7 +46,12 @@
           "assets": [
             "./assets/images/onboarding.png",
             "./assets/images/payment_done.png",
-            "./assets/images/messages_not_found.png"
+            "./assets/images/messages_not_found.png",
+            "./assets/images/auto.png",
+            "./assets/images/bike.png",
+            "./assets/images/car.png",
+            "./assets/images/suv.png",
+            "./assets/images/findDriver.png"
           ]
         }
       ],
