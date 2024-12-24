@@ -25,6 +25,7 @@ import MapView, { Marker } from 'react-native-maps';
 import MapViewDirections from 'react-native-maps-directions';
 import * as Location from 'expo-location';
 import { useTheme } from '@react-navigation/native';
+import { useRouter } from 'expo-router';
 
 type LocationType = {
   latitude: number;
@@ -65,6 +66,7 @@ function PlaceItem({ place, onPress, colors }) {
 }
 
 export default function Home() {
+  const router = useRouter();
   const { colors } = useTheme();
   const { EXPO_PUBLIC_GOOGLE_API_KEY } = process.env;
   const currentTextInputRef = useRef(null);
@@ -206,6 +208,37 @@ export default function Home() {
     } else {
       console.error('Place ID is undefined.');
     }
+  };
+
+  const handleNext = () => {
+    // if (destinationLocation && currentLocation) {
+    //   console.log('currentLocation', currentLocation);
+    //   console.log('destinationLocation', destinationLocation);
+    //   router.push({
+    //     pathname: '/(trip)/ChooseVehicle',
+    //     params: {
+    //       currLocLat: currentLocation.latitude,
+    //       currLocLong: currentLocation.longitude,
+    //       destLocLat: destinationLocation.latitude,
+    //       destLocLong: destinationLocation.longitude,
+    //     },
+    //   });
+    // } else {
+    //   alert('Please select current location and destination location!');
+    // }
+    router.push({
+      pathname: '/(trip)/ChooseVehicle',
+      params: {
+        currLocLat: 20.00865869999999,
+        currLocLong: 73.7593693,
+        currLocLatdelta: 0.02,
+        currLocLongdelta: 0.02,
+        destLocLat: 19.9984845,
+        destLocLong: 73.75293409999999,
+        destLocLatdelta: 0.02,
+        destLocLongdelta: 0.02,
+      },
+    });
   };
 
   useEffect(() => {
@@ -400,6 +433,7 @@ export default function Home() {
                   onPress={() => {
                     console.log('Next Button Pressed!');
                     closeModal();
+                    handleNext();
                   }}
                   style={{
                     marginTop: 60,
