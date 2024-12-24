@@ -14,7 +14,15 @@ const styles = StyleSheet.create({
   },
 });
 
-function Header() {
+interface HeaderProps {
+  backgroundColor?: string;
+  iconBackgroundColor?: string;
+}
+
+function Header({
+  backgroundColor = '',
+  iconBackgroundColor = '',
+}: HeaderProps) {
   const { colors } = useTheme();
   const handlePress = () => {
     router.back();
@@ -22,13 +30,16 @@ function Header() {
   return (
     <View
       style={{
-        backgroundColor: colors.background,
+        backgroundColor: backgroundColor || colors.background,
         marginTop: 55,
         marginLeft: 25,
         height: 60,
       }}>
       <TouchableOpacity
-        style={[styles.container, { backgroundColor: colors.tint }]}
+        style={[
+          styles.container,
+          { backgroundColor: iconBackgroundColor || colors.tint },
+        ]}
         onPress={handlePress}>
         <ChevronLeft />
       </TouchableOpacity>
